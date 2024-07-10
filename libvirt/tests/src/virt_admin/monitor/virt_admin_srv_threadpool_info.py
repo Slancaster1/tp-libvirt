@@ -1,6 +1,8 @@
 from virttest import virt_admin
 from virttest import utils_libvirtd
 
+import logging as log
+logging = log.getLogger('avocado.' + __name__)
 
 def run(test, params, env):
     """
@@ -22,7 +24,7 @@ def run(test, params, env):
         server_name = virt_admin.check_server_name()
 
     config = virt_admin.managed_daemon_config()
-    daemon = utils_libvirtd.Libvirtd("virtproxyd")
+    daemon = utils_libvirtd.Libvirtd("virtproxyd", all_daemons=True)
 
     try:
         if server_name == "admin":
@@ -34,6 +36,7 @@ def run(test, params, env):
             config.prio_workers = prio_workers
 
         daemon.restart()
+        logging.info(str(daemon.__dict__))
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=True,
                                                 debug=True)
 
