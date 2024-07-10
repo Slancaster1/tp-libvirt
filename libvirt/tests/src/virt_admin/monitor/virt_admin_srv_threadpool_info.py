@@ -37,7 +37,7 @@ def run(test, params, env):
 
         daemon.restart()
         logging.info(str(daemon.__dict__))
-        result = virt_admin.srv_threadpool_info(server_name, ignore_status=True,
+        result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
                                                 debug=True)
 
         output = result.stdout_text.strip().splitlines()
