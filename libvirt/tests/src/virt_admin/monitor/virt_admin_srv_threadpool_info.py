@@ -23,9 +23,15 @@ def run(test, params, env):
     admin_min_workers = params.get("admin_min_workers")
     admin_max_workers = params.get("admin_max_workers")
     server_name = params.get("server_name")
+
     os.environ["VIRT_ADMIN_DEBUG"] = "0"
     os.environ["VIRT_ADMIN_LOG_FILE"] = "/tmp/virt_admin_" + str(uuid.uuid4()) + ".log"
     logging.info("Virt Admin logfile: {}".format(os.environ["VIRT_ADMIN_LOG_FILE"]))
+
+    virt_log = "/tmp/virt_log_" + str(uuid.uuid4()) + ".log"
+    os.environ["VIRT_DEBUG"] = "1"
+    os.environ["LIBVIRT_LOG_OUTPUTS"] = "1:file:" + virt_log
+    logging.info("Libvirt log: {}".format(virt_log))
 
     if not server_name:
         server_name = virt_admin.check_server_name()
