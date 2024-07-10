@@ -36,6 +36,7 @@ def run(test, params, env):
             config.prio_workers = prio_workers
 
         daemon.restart()
+        logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
                                                 debug=True)
