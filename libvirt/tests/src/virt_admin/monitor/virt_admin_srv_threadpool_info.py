@@ -41,7 +41,8 @@ def run(test, params, env):
         logging.info(str(daemon.__dict__))
         utils_misc.wait_for(daemon.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
-                                                debug=True, uri="libvirtd:///system")
+                                                debug=True)
+        logging.info("Is daemon running? {}".format(daemon.is_running()))
 
         output = result.stdout_text.strip().splitlines()
         out_split = [item.split(':') for item in output]
