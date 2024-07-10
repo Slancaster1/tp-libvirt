@@ -1,5 +1,6 @@
 from virttest import virt_admin
 from virttest import utils_libvirtd
+from virttest import utils_misc
 
 import logging as log
 logging = log.getLogger('avocado.' + __name__)
@@ -38,6 +39,7 @@ def run(test, params, env):
         daemon.restart()
         logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
+        utils_misc.wait_for(daemon.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
                                                 debug=True)
 
