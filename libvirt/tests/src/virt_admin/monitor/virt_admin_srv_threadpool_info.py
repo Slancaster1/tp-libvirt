@@ -5,6 +5,9 @@ from virttest import utils_misc
 import logging as log
 logging = log.getLogger('avocado.' + __name__)
 
+import os
+import uuid
+
 def run(test, params, env):
     """
     Test virt-admin srv-threadpool-info
@@ -20,6 +23,9 @@ def run(test, params, env):
     admin_min_workers = params.get("admin_min_workers")
     admin_max_workers = params.get("admin_max_workers")
     server_name = params.get("server_name")
+    os.environ["VIRT_ADMIN_DEBUG"] = "0"
+    os.environ["VIRT_ADMIN_LOG_FILE"] = "/tmp/virt_admin_" + str(uuid.uuid4()) + ".log"
+    logging.info("Virt Admin logfile: {}".format(os.environ["VIRT_ADMIN_LOG_FILE"]))
 
     if not server_name:
         server_name = virt_admin.check_server_name()
