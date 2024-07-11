@@ -37,6 +37,7 @@ def run(test, params, env):
 
     config = virt_admin.managed_daemon_config()
     daemon = utils_libvirtd.Libvirtd("virtproxyd", all_daemons=True)
+    vqemud = utils_libvirtd.Libvirtd("virtqemud")
 
     try:
         if server_name == "admin":
@@ -53,6 +54,7 @@ def run(test, params, env):
         virt_admin.srv_list(ignore_status=False)
 
         utils_misc.wait_for(daemon.is_running, 360)
+        utils_misc.wait_for(vqemud.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
                                                 debug=True)
         logging.info("Is daemon running? {}".format(daemon.is_running()))
