@@ -50,7 +50,7 @@ def run(test, params, env):
         daemon.restart()
         logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
-        virt_admin.srv_list()
+        virt_admin.srv_list(ignore_status=False)
 
         utils_misc.wait_for(daemon.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
