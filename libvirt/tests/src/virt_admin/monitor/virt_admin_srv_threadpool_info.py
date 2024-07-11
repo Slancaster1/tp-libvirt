@@ -28,6 +28,10 @@ def run(test, params, env):
     os.environ["VIRT_ADMIN_LOG_FILE"] = "/tmp/virt_admin_" + str(uuid.uuid4()) + ".log"
     logging.info("Virt Admin logfile: {}".format(os.environ["VIRT_ADMIN_LOG_FILE"]))
 
+    libvirt_debug_path = "/tmp/libvirt_debug_" + str(uuid.uuid4()) + ".log"
+    os.environ["LIBVIRT_LOG_OUTPUTS"] = "1:file:" + libvirt_debug_path
+    logging.info("libvirt debug file: {}".format(libvirt_debug_path))
+
     if not server_name:
         server_name = virt_admin.check_server_name()
 
