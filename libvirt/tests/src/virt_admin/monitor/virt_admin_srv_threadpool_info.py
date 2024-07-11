@@ -1,4 +1,4 @@
-from virttest import virt_admin
+from vttest import virt_admin
 from virttest import utils_libvirtd
 from virttest import utils_misc
 
@@ -51,12 +51,12 @@ def run(test, params, env):
         daemon.restart()
         logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
-        virt_admin.srv_list(ignore_status=False)
+        virt_admin.srv_list(uri="virtqemud:///system", ignore_status=False)
 
         utils_misc.wait_for(daemon.is_running, 360)
         utils_misc.wait_for(vqemud.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
-                                                debug=True)
+                                                debug=True, uri="virtqemud:///system")
         logging.info("Is daemon running? {}".format(daemon.is_running()))
 
         output = result.stdout_text.strip().splitlines()
