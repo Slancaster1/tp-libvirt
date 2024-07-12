@@ -7,6 +7,7 @@ logging = log.getLogger('avocado.' + __name__)
 
 import os
 import uuid
+import subprocess
 
 def run(test, params, env):
     """
@@ -54,12 +55,16 @@ def run(test, params, env):
         logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
         logging.info("virtproxd.socket? {}".format(daemon_socket.is_running()))
-        virt_admin.srv_list(uri="virtqemud:///system", ignore_status=False)
+
+        p = subprocess.Popen(["systemctl", "status", "virtproxyd-admin.socket"], stdout=subprocess.PIPE)
+        p.stdout.read()
+
+        virt_admin.srv_list(ignore_status=False)
 
         utils_misc.wait_for(daemon.is_running, 360)
         utils_misc.wait_for(vqemud.is_running, 360)
         result = virt_admin.srv_threadpool_info(server_name, ignore_status=False,
-                                                debug=True, uri="virtqemud:///system")
+                                                debug=True)
         logging.info("Is daemon running? {}".format(daemon.is_running()))
 
         output = result.stdout_text.strip().splitlines()
