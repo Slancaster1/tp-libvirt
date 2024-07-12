@@ -1,4 +1,4 @@
-from vttest import virt_admin
+from virttest import virt_admin
 from virttest import utils_libvirtd
 from virttest import utils_misc
 
