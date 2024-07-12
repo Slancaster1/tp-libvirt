@@ -37,6 +37,7 @@ def run(test, params, env):
 
     config = virt_admin.managed_daemon_config()
     daemon = utils_libvirtd.Libvirtd("virtproxyd", all_daemons=True)
+    daemon_socket = utils_libvirtd.Libvirtd("virtproxyd.socket")
     vqemud = utils_libvirtd.Libvirtd("virtqemud")
 
     try:
@@ -49,8 +50,10 @@ def run(test, params, env):
             config.prio_workers = prio_workers
 
         daemon.restart()
+        
         logging.info("Is daemon running? {}".format(daemon.is_running()))
         logging.info(str(daemon.__dict__))
+        logging.info("virtproxd.socket? {}".format(daemon_socket.is_running()))
         virt_admin.srv_list(uri="virtqemud:///system", ignore_status=False)
 
         utils_misc.wait_for(daemon.is_running, 360)
