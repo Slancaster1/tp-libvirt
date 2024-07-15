@@ -57,7 +57,8 @@ def run(test, params, env):
         logging.info("virtproxd.socket? {}".format(daemon_socket.is_running()))
 
         p = subprocess.Popen(["systemctl", "status", "virtproxyd-admin.socket"], stdout=subprocess.PIPE)
-        p.stdout.read()
+        output = p.stdout.read()
+        logging.info("Virtproxyd-Admin Status {}".format(output))
 
         virt_admin.srv_list(ignore_status=False)
 
