@@ -25,7 +25,7 @@ def create_scripts(vmxml, num_scripts, timeout):
     :param timeout: amount of time to spend creating
     and destroying VMs
     """
-    tmp_dir = data_dir.get_tmp_dir(public=False)
+    tmp_dir = "/tmp/test_env"
     vm_name = vmxml.vm_name
     script_names = []
 
